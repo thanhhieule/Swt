@@ -23,14 +23,17 @@
         </style>
     <body>
         <div class="container">
-            
+
             <div id="editEmployeeModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="edit" method="post">
                             <div class="modal-header">						
                                 <h4 class="modal-title">Edit Product</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span>&times;</span>
+                                </button>
+
                             </div>
                             <div class="modal-body">					
                                 <div class="form-group">
@@ -49,7 +52,7 @@
                                     <label>Price</label>
                                     <input value="${product.price}" name="price" type="text"  pattern="^\d+\.*\d*$" title="Please Enter Double Value!" class="form-control" required>
                                 </div>
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label>Quantity</label>
                                     <input value="${product.quantity}" name="quantity" type="text" pattern="^\d+$" title="Please Enter integer Value!" class="form-control" required>
                                 </div>

@@ -64,24 +64,25 @@
                                 <td>${p.id}</td>
                                 <td>${p.name}</td>
                                 <td>
-                                    <img src="${p.imageUrl}">
+                                    <img src="${p.imageUrl}" alt="Image of ${p.name}">
                                 </td>
                                 <td>${p.price} $</td>
-                                <td>${p.quantity}</td> <!-- Corrected the typo here -->
+                                <td>${p.quantity}</td>
                                 <td>
                                     <a href="load?pid=${p.id}" class="edit" data-toggle="modal">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                     </a>
-                                    <a href="#" class="delete" data-toggle="modal" onclick="doDelete(${p.id})">
+                                    <button class="delete btn btn-danger" data-toggle="modal" onclick="doDelete(${p.id})">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
+
                     </tbody>
                 </table>
             </div>
-            
+
             <a href="#">
                 <button type="button" class="btn btn-primary" onclick="back()">Back to home</button>
             </a>
@@ -109,7 +110,7 @@
                                 <input name="price" type="text" class="form-control" pattern="^\d+\.*\d*$" title="Please Enter Double Value!" required>
                             </div>
                             <div class="form-group">
-                                <label>Quantity</label> <!-- Added quantity input field -->
+                                <label>Quantity</label>
                                 <input name="quantity" type="number" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -134,15 +135,9 @@
                             <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
-                    
-    <%
-        String errorMessage = (String) request.getAttribute("errorMessage");
-        if (errorMessage != null) {
-    %>
-        <p style="color: red;"><%= errorMessage %></p>
-    <%
-        }
-    %>
+                    <% String errorMessage = (String) request.getAttribute("errorMessage"); if (errorMessage != null) { %>
+                    <p style="color: red;"><%= errorMessage %></p>
+                    <% } %>
                 </div>
             </div>
         </div>

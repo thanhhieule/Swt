@@ -41,7 +41,9 @@
                                     <input value="${product.id}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" required />
+
                                     <input value="${product.name}" name="name" type="text" class="form-control" required>
                                 </div>
                                 <div class="form-group">

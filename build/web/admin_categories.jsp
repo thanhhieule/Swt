@@ -1,9 +1,3 @@
-<%-- 
-    Document   : admin_categories
-    Created on : Feb 20, 2024, 12:27:23 AM
-    Author     : HuuThanh
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../../common/taglib.jsp"%>
 <!DOCTYPE html>
@@ -18,7 +12,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-
         <!-- Font-icon css-->
         <link rel="stylesheet" type="text/css"
               href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -62,38 +55,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${LIST_CATEGORIES}" var="c">
-                                        <tr>
-                                            <td>${c.id}</td>
-                                            <td>${c.name}</td>
-                                            <td>
-                                                <c:forEach items="${requestScope.LIST_TYPES}" var="t">
-                                                    <c:if test="${c.type.id == t.id}" >
-                                                        ${t.name}
-                                                    </c:if>
-                                                </c:forEach>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm trash" id="logout" data-toggle="modal" data-target="#modal_box" href="#" onclick="confirmDelete('modal_box', ${c.id})">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                                        data-toggle="modal" data-target="#ModalUP${c.id}"><i class="fas fa-edit"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                <c:forEach items="${LIST_CATEGORIES}" var="c">
+                                    <tr>
+                                        <td>${c.id}</td>
+                                        <td>${c.name}</td>
+                                        <td>
+                                    <c:forEach items="${requestScope.LIST_TYPES}" var="t">
+                                        <c:if test="${c.type.id == t.id}" >
+                                            ${t.name}
+                                        </c:if>
+                                    </c:forEach>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" data-target="#modal_box" onclick="confirmDelete('modal_box', ${c.id})">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                                onclick="document.getElementById('ModalUP${c.id}').showModal()">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                    </tr>
 
-                                        <!--
-                                        MODAL
-                                        -->
-
-                                    <div class="modal fade" id="ModalUP${c.id}" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-                                         data-keyboard="false">
+                                    <!--
+                                    MODAL
+                                    -->
+                                    <dialog id="ModalUP${c.id}" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="form-group  col-md-12">
+                                                        <div class="form-group col-md-12">
                                                             <span class="thong-tin-thanh-toan">
                                                                 <h5>Chỉnh sửa thông tin sản phẩm</h5>
                                                             </span>
@@ -118,19 +110,15 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <BR>
+                                                        <br>
                                                         <button class="btn btn-save" type="submit">Lưu lại</button>
-                                                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                                                        <BR>
+                                                        <button class="btn btn-cancel" type="button" onclick="document.getElementById('ModalUP${c.id}').close()">Hủy bỏ</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </dialog>
 
-                                    <!--
-                                  MODAL
-                                    -->
                                 </c:forEach>
                                 </tbody>
                             </table>
@@ -139,8 +127,6 @@
                 </div>
             </div>
         </main>
-
-
 
         <div class="modal fade" id="modal_box" role="dialog"></div>
         <!-- Essential javascripts for application to work-->
@@ -156,40 +142,38 @@
         <script type="text/javascript" src="view/assets/admin/js/plugins/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="view/assets/admin/js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">
-                                                    function confirmDelete(modalID, cid) {
-                                                        let modalElement = document.getElementById(modalID);
-                                                        let modal = '<div class="modal-dialog modal-dialog-centered" role="document" style="text-align:center">' +
-                                                                '<div class="modal-content" style="width:500px; margin: 0 auto">' +
-                                                                '<div class="modal-header" style="color: black; font-size:28px; font-weight: 600; margin: 15px auto">Cảnh báo</div>' +
-                                                                '<div class="swal-text">Bạn có chắc chắn là muốn xóa danh mục này?</div>' +
-                                                                '<div class="swal-footer">' +
-                                                                '<div class="swal-button-container">' +
-                                                                '<button data-dismiss="modal" aria-hidden="true" class="swal-button swal-button--cancel">Hủy bỏ</button>' +
-                                                                '</div>' +
-                                                                '<div class="swal-button-container">' +
-                                                                '<a href="DeleteCategoryServlet?cid=' + cid + '" class="swal-button swal-button--confirm">Xác nhận</a>' +
-                                                                '</div>' +
-                                                                '</div>' +
-                                                                '</div>' +
-                                                                '</div>';
-                                                        console.log(modal);
-                                                        let result = modalElement.innerHTML = modal;
-                                                        return result;
-                                                    }
+                                                                function confirmDelete(modalID, cid) {
+                                                                    let modalElement = document.getElementById(modalID);
+                                                                    let modal = '<div class="modal-dialog modal-dialog-centered" role="document" style="text-align:center">' +
+                                                                            '<div class="modal-content" style="width:500px; margin: 0 auto">' +
+                                                                            '<div class="modal-header" style="color: black; font-size:28px; font-weight: 600; margin: 15px auto">Cảnh báo</div>' +
+                                                                            '<div class="swal-text">Bạn có chắc chắn là muốn xóa danh mục này?</div>' +
+                                                                            '<div class="swal-footer">' +
+                                                                            '<div class="swal-button-container">' +
+                                                                            '<button onclick="document.getElementById(\'modal_box\').close()" class="swal-button swal-button--cancel">Hủy bỏ</button>' +
+                                                                            '</div>' +
+                                                                            '<div class="swal-button-container">' +
+                                                                            '<a href="DeleteCategoryServlet?cid=' + cid + '" class="swal-button swal-button--confirm">Xác nhận</a>' +
+                                                                            '</div>' +
+                                                                            '</div>' +
+                                                                            '</div>' +
+                                                                            '</div>';
+                                                                    let result = modalElement.innerHTML = modal;
+                                                                    document.getElementById(modalID).showModal();
+                                                                    return result;
+                                                                }
         </script>
         <script>
-                //In
-                var myApp = new function () {
-                    this.printTable = function () {
-                        var tab = document.getElementById('sampleTable');
-                        var win = window.open('', '', 'height=700,width=700');
-                        win.document.write(tab.outerHTML);
-                        win.document.close();
-                        win.print();
-                    };
-                }
-                ;
+            // In
+            var myApp = new function () {
+                this.printTable = function () {
+                    var tab = document.getElementById('sampleTable');
+                    var win = window.open('', '', 'height=700,width=700');
+                    win.document.write(tab.outerHTML);
+                    win.document.close();
+                    win.print();
+                };
+            };
         </script>
     </body>
-
 </html>

@@ -57,7 +57,9 @@
                                     <input type="hidden" name="productId" value="${C.value.product.id}"/>
                                         <th scope="row">${C.value.product.id}</th>
                                         <td>${C.value.product.name}</td>
-                                        <td><img src="${C.value.product.imageUrl}" width="50"/></td>
+                                        
+                                        <td><img src="${C.value.product.imageUrl}" alt="${C.value.product.name}" width="50"/></td>
+                                        
                                         <td>${C.value.product.price}</td>
                                         <td>
                                             <input onchange="this.form.submit()" type="number" name="quantity" value="${C.value.quantity}"/>

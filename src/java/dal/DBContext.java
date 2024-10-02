@@ -13,8 +13,8 @@ public class DBContext {
     public DBContext() {
         try {
             String user = "sa";
-            String pass = "12345";
-            String url = "jdbc:sqlserver://HIEU\\SQLEXPRESS:1433;databaseName=Assgn_PRJ_WEB_Ban_Noi_That1";
+            String pass = "123";
+            String url = "jdbc:sqlserver://HIEU\\SQLEXPRESS:1433;databaseName=Assgn_PRJ_WEB_Ban_Noi_That";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException ex) {

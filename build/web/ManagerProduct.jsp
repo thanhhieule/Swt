@@ -63,9 +63,10 @@
                             <tr>
                                 <td>${p.id}</td>
                                 <td>${p.name}</td>
-                                <td>
-                                    <img src="${p.imageUrl}">
+                                <td> 
+                <img src="${p.imageUrl}" alt="Description of the image">
                                 </td>
+
                                 <td>${p.price} $</td>
                                 <td>${p.quantity}</td> <!-- Corrected the typo here -->
                                 <td>

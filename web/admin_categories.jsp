@@ -128,7 +128,7 @@
             </div>
         </main>
 
-        <div class="modal fade" id="modal_box" role="dialog"></div>
+        <div class="modal fade" id="modal_box" aria-labelledby="deleteConfirmationLabel" aria-hidden="true"></div>
         <!-- Essential javascripts for application to work-->
         <script src="view/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="view/assets/admin/js/popper.min.js"></script>

@@ -22,70 +22,78 @@
             }
         </style>
     <body>
-        <div class="container">
-
-            <div id="editEmployeeModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="edit" method="post">
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Edit Product</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span>&times;</span>
-                                </button>
-
+    <div class="container">
+        <div id="editEmployeeModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="edit" method="post">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Product</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>
+                                    ID
+                                    <input id="productId" value="${product.id}" name="id" type="text" class="form-control" readonly required>
+                                </label>
                             </div>
-                            <div class="modal-body">					
-                                <div class="form-group">
-                                    <label>ID</label>
-                                    <input value="${product.id}" name="id" type="text" class="form-control" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input value="${product.name}" name="name" type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Image</label>
-                                    <input value="${product.imageUrl}" name="image" type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Price</label>
-                                    <input value="${product.price}" name="price" type="text"  pattern="^\d+\.*\d*$" title="Please Enter Double Value!" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input value="${product.quantity}" name="quantity" type="text" pattern="^\d+$" title="Please Enter integer Value!" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Title</label>
-                                    <textarea name="title" class="form-control" required>${product.tiltle}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea name="description" class="form-control" required>${product.description}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <select name="category" class="form-control" aria-label="Default select example">
+                            <div class="form-group">
+                                <label>
+                                    Name
+                                    <input id="productName" value="${product.name}" name="name" type="text" class="form-control" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Image
+                                    <input id="productImage" value="${product.imageUrl}" name="image" type="text" class="form-control" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Price
+                                    <input id="productPrice" value="${product.price}" name="price" type="text" pattern="^\d+\.*\d*$" title="Please Enter Double Value!" class="form-control" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Quantity
+                                    <input id="productQuantity" value="${product.quantity}" name="quantity" type="text" pattern="^\d+$" title="Please Enter integer Value!" class="form-control" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Title
+                                    <textarea id="productTitle" name="title" class="form-control" required>${product.tiltle}</textarea>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Description
+                                    <textarea id="productDescription" name="description" class="form-control" required>${product.description}</textarea>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Category
+                                    <select id="productCategory" name="category" class="form-control" aria-label="Default select example">
                                         <c:forEach items="${listCategories}" var="o">
                                             <option ${(product.categoryId == o.cid)?"selected":""} value="${o.cid}">${o.cname}</option>
                                         </c:forEach>
                                     </select>
-                                </div>
-
+                                </label>
                             </div>
-                            <div class="modal-footer">
-                                <input type="submit" class="btn btn-success" value="Edit">
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-success" value="Edit">
+                        </div>
+                    </form>
                 </div>
             </div>
-
         </div>
-
-
-        <script src="js/manager.js" type="text/javascript"></script>
-    </body>
+    </div>
+    <script src="js/manager.js" type="text/javascript"></script>
+</body>
 </html>
 

@@ -13,7 +13,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Edit Account</title>
-       
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -93,44 +93,45 @@
                         <form action="EditAccount" method="post">
                             <div class="modal-header">						
                                 <h4 class="modal-title">Edit Account</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             </div>
                             <div class="modal-body">					
                                 <div class="form-group">
-                                    <label>ID</label>
-                                    <input value="${account.uid}" name="id" type="text" class="form-control" readonly required>
+                                    <label for="id">ID</label>
+                                    <input id="id" value="${account.uid}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>User</label>
-                                    <input value="${account.user}" name="user" type="text" class="form-control" readonly required>
+                                    <label for="user">User</label>
+                                    <input id="user" value="${account.user}" name="user" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Pass</label>
-                                    <input value="${account.pass}" name="pass" type="text" class="form-control"  readonly required>
+                                    <label for="pass">Pass</label>
+                                    <input id="pass" value="${account.pass}" name="pass" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>isSell</label>
-                                    <input value="${account.isSell}" name="issell" type="text" class="form-control" readonly required>
+                                    <label for="issell">isSell</label>
+                                    <input id="issell" value="${account.isSell}" name="issell" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>FirstName</label>
-                                    <input value="${account.firstName}" name="firstName" type="text" class="form-control" readonly required>
+                                    <label for="firstName">FirstName</label>
+                                    <input id="firstName" value="${account.firstName}" name="firstName" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>LastName</label>
-                                    <input value="${account.lastName}" name="lastName" type="text" class="form-control" readonly required>
+                                    <label for="lastName">LastName</label>
+                                    <input id="lastName" value="${account.lastName}" name="lastName" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
-                                    <input value="${account.address}" name="address" type="text" class="form-control" readonly required>
+                                    <label for="address">Address</label>
+                                    <input id="address" value="${account.address}" name="address" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Phone</label>
-                                    <input value="${account.phone}" name="phone" type="text" class="form-control" readonly required>
+                                    <label for="phone">Phone</label>
+                                    <input id="phone" value="${account.phone}" name="phone" type="text" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Active</label>
-                                    <input value="${account.active}" name="active" type="text" class="form-control" required>
+                                    <label for="active">Active</label>
+                                    <input id="active" value="${account.active}" name="active" type="text" class="form-control" required>
                                 </div>
                             </div>
                             <div class="modal-footer">

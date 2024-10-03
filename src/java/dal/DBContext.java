@@ -12,14 +12,13 @@ public class DBContext {
 
     public DBContext() {
         try {
-            String user = "sa";
-            String pass = "123";
-            String url = "jdbc:sqlserver://HIEU\\SQLEXPRESS:1433;databaseName=Assgn_PRJ_WEB_Ban_Noi_That";
+            String user = System.getenv("DB_USER");  // Lấy user từ biến môi trường
+            String pass = System.getenv("DB_PASS");  // Lấy mật khẩu từ biến môi trường
+            String url = System.getenv("DB_URL");    // Lấy URL từ biến môi trường
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

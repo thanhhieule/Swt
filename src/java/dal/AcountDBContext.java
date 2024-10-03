@@ -1,261 +1,108 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package dal;
+package controller;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dal.AcountDBContext;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
-import model.Product;
-
 
 /**
  *
  * @author Admin
  */
-public class AcountDBContext extends DBContext {
+//forgetPassword
+public class forgetPasswordController extends HttpServlet {
 
-  public List<Account> getAllAccount() {
-    List<Account> list = new ArrayList<>();
-    String sql = "SELECT * FROM Account where isAdmin != 1";
-
-    // Using try-with-resources to ensure resources are automatically closed
-    try (PreparedStatement stm = connection.prepareStatement(sql);
-         ResultSet rs = stm.executeQuery()) {
-
-        while (rs.next()) {
-            Account account = new Account();
-            account.setUid(rs.getInt("uid"));        // Use column names instead of index for clarity
-            account.setUser(rs.getString("username"));
-            account.setPass(rs.getString("password"));
-            account.setIsSell(rs.getInt("isSell"));
-            account.setIsAdmin(rs.getInt("isAdmin"));
-            account.setActive(rs.getBoolean("isActive"));
-            account.setFirstName(rs.getString("firstName"));
-            account.setLastName(rs.getString("lastName"));
-            account.setAddress(rs.getString("address"));
-            account.setPhone(rs.getString("phone"));
-
-            list.add(account);
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet forgetPasswordController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet forgetPasswordController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return list;
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("change-newpassword.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String user = request.getParameter("user");
+        String passOld = request.getParameter("pass");
+        String pass = request.getParameter("newPassword");
+        String repass = request.getParameter("confirmPassword");
+        AcountDBContext adb = new AcountDBContext();
+        Account account = adb.checkAccountExistByUserPass(user,passOld);
+        if (account == null) {
+            request.setAttribute("mess", "Account does not exist or wrong password !");
+            request.getRequestDispatcher("change-newpassword.jsp").forward(request, response);
+            return;
+        }
+        if (!pass.equals(repass)) {
+            request.setAttribute("mess", "password does not match!");
+            request.getRequestDispatcher("change-newpassword.jsp").forward(request, response);
+            return;
+        }
+        if (pass.equals(repass)) {
+            adb.updatePassword(pass, user);
+            request.setAttribute("mess", "Change Pass successfully!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }
-public Account login(String user, String pass) {
-    Account account = null;
-    String sql = "SELECT * FROM Account WHERE [user] = ? AND [pass] = ?";
-    
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setString(1, user);
-        stm.setString(2, pass);
-        try (ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                account = new Account();
-                account.setUid(rs.getInt("uID"));
-                account.setUser(rs.getString("user"));
-                account.setPass(rs.getString("pass"));
-                account.setIsSell(rs.getInt("isSell"));
-                account.setIsAdmin(rs.getInt("isAdmin"));
-                account.setFirstName(rs.getString("firstName"));
-                account.setLastName(rs.getString("lastName"));
-                account.setAddress(rs.getString("address"));
-                account.setPhone(rs.getString("phone"));
-                account.setActive(rs.getBoolean("active"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return account;
-}
-
-
-
-   public Account checkAccountExistByUserPass(String user, String pass) {
-    Account account = null;
-    String sql = "SELECT * FROM Account WHERE [user] = ? AND [pass] = ?";
-
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setString(1, user);
-        stm.setString(2, pass);
-        try (ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                account = new Account();
-                account.setUid(rs.getInt("uID"));
-                account.setUser(rs.getString("user"));
-                account.setPass(rs.getString("pass"));
-                account.setIsSell(rs.getInt("isSell"));
-                account.setIsAdmin(rs.getInt("isAdmin"));
-                account.setFirstName(rs.getString("firstName"));
-                account.setLastName(rs.getString("lastName"));
-                account.setAddress(rs.getString("address"));
-                account.setPhone(rs.getString("phone"));
-                account.setActive(rs.getBoolean("active"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, "Error checking account", ex);
-    }
-    return account;
-}
-
-    
-   public Account checkAccountExist(String user) {
-    Account account = null;
-    String sql = "SELECT * FROM Account WHERE [user] = ?";
-    
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setString(1, user);
-        try (ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                account = new Account();
-                account.setUid(rs.getInt("uID"));
-                account.setUser(rs.getString("user"));
-                account.setPass(rs.getString("pass"));
-                account.setIsSell(rs.getInt("isSell"));
-                account.setIsAdmin(rs.getInt("isAdmin"));
-                account.setActive(rs.getBoolean("active"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return account;
-}
-
-public void insertAccount(String user, String pass, String firstName, String lastName, String address, String phone) {
-    String sql = "INSERT INTO [Account] ([user], [pass], [isSell], [isAdmin], [firstName], [lastName], [address], [phone], [active]) VALUES (?, ?, 0, 0, ?, ?, ?, ?, 1)";
-
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setString(1, user);
-        stm.setString(2, pass);
-        stm.setString(3, firstName);
-        stm.setString(4, lastName);
-        stm.setString(5, address);
-        stm.setString(6, phone);
-        stm.executeUpdate();
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-    }
-}
-
-
-
- public Account getAccountById(int accountId) {
-    Account account = null;
-    String sql = "SELECT * FROM Account WHERE uID = ?";
-
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setInt(1, accountId);
-        try (ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                account = new Account();
-                account.setUid(rs.getInt("uID"));
-                account.setUser(rs.getString("user"));
-                account.setPass(rs.getString("pass"));
-                account.setIsSell(rs.getInt("isSell"));
-                account.setIsAdmin(rs.getInt("isAdmin"));
-                account.setFirstName(rs.getString("firstName"));
-                account.setLastName(rs.getString("lastName"));
-                account.setAddress(rs.getString("address"));
-                account.setPhone(rs.getString("phone"));
-                account.setActive(rs.getBoolean("active"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return account;
-}
-
-public Account getAccountByUser(String username) {
-    Account account = null;
-    String sql = "SELECT * FROM [Account] WHERE [user] = ?";
-
-    try (PreparedStatement stm = connection.prepareStatement(sql)) {
-        stm.setString(1, username);
-        try (ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                account = new Account();
-                account.setUid(rs.getInt("uID"));
-                account.setUser(rs.getString("user"));
-                account.setPass(rs.getString("pass"));
-                account.setIsSell(rs.getInt("isSell"));
-                account.setIsAdmin(rs.getInt("isAdmin"));
-                account.setFirstName(rs.getString("firstName"));
-                account.setLastName(rs.getString("lastName"));
-                account.setAddress(rs.getString("address"));
-                account.setPhone(rs.getString("phone"));
-                account.setActive(rs.getBoolean("active"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return account;
-}
-
-
-   
-    public void updateAccount(Account account) {
-
-        try {
-            String sql = "UPDATE [Account]\n"
-                    + "   SET [active] = ?\n"
-                    + " WHERE uId = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setBoolean(1, account.isActive());
-            stm.setInt(2, account.getUid());
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-
-   
-
-    public void UpDatePassWord(String pass,String user) {
-        try {
-            String sql = "UPDATE [Account]\n"
-                    + "   SET [pass] = ?\n"
-                    + " WHERE [user] = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, pass);
-            stm.setString(2, user);
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-      public void updateAccount2(Account account) {
-        String sql = "UPDATE Account SET [user] = ?, pass = ?, active = ?, firstName = ?, lastName = ?, address = ?, phone = ? WHERE uID = ?";
-        
-        try (PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setString(1, account.getUser());
-            stm.setString(2, account.getPass());
-            stm.setBoolean(3, account.isActive());
-            stm.setString(4, account.getFirstName());
-            stm.setString(5, account.getLastName());
-            stm.setString(6, account.getAddress());
-            stm.setString(7, account.getPhone());
-            stm.setInt(8, account.getUid());
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, "Error updating account", ex);
-        }
-    }
-   
-}
-

@@ -1,5 +1,4 @@
 package Filter;
-
 import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -13,49 +12,31 @@ import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 public class AdminFilter implements Filter {
-    
-    private static final boolean debug = true;
 
     private FilterConfig filterConfig = null;
     
     public AdminFilter() {
-    }    
-    
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("LoginFilter:DoBeforeProcessing");
-        }
-    }    
-    
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("LoginFilter:DoAfterProcessing");
-        }
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
-
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-
         HttpSession session = req.getSession(false);
         String loginURI = req.getContextPath() + "/error.jsp";
-
         String requestURI = req.getRequestURI();
         boolean loggedIn = session != null && session.getAttribute("acc") != null;
         boolean loginRequest = requestURI.equals(loginURI);
-       
+
         boolean managerPageRequest = requestURI.contains("/managerOrder") ||
                                      requestURI.contains("/managerAccount") ||
                                      requestURI.contains("/managerCategory") ||
                                      requestURI.contains("/manager");
-                                     
+
         if (loggedIn) {
             Account acc = (Account) session.getAttribute("acc");
-            if (managerPageRequest && acc.getIsAdmin() != 1) {
+            // Thêm kiểm tra null để tránh lỗi NPE
+            if (acc != null && managerPageRequest && acc.getIsAdmin() != 1) {
                 res.sendRedirect(loginURI);
             } else {
                 chain.doFilter(request, response);
@@ -69,38 +50,19 @@ public class AdminFilter implements Filter {
         }
     }
 
-    public FilterConfig getFilterConfig() {
-        return (this.filterConfig);
+    public void destroy() {
+        // Optional cleanup code if needed
     }
 
-    public void setFilterConfig(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-    }
-
-    public void destroy() {        
-    }
-
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
-                log("LoginFilter:Initializing filter");
-            }
+            log("AdminFilter: Initializing filter");
         }
-    }
-
-    @Override
-    public String toString() {
-        if (filterConfig == null) {
-            return ("LoginFilter()");
-        }
-        StringBuffer sb = new StringBuffer("LoginFilter(");
-        sb.append(filterConfig);
-        sb.append(")");
-        return (sb.toString());
     }
 
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        // Không còn kiểm tra `debug` ở đây, luôn ghi log
+        filterConfig.getServletContext().log(msg);
     }
 }

@@ -63,9 +63,12 @@
                             <tr>
                                 <td>${p.id}</td>
                                 <td>${p.name}</td>
-                                <td>
-                                    <img src="${p.imageUrl}" alt="Image of ${p.name}">
+          <td> 
+    <img src="${p.imageUrl}" alt="Description of the image">
+          </td>
+
                                 </td>
+
                                 <td>${p.price} $</td>
                                 <td>${p.quantity}</td>
                                 <td>
